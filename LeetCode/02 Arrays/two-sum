@@ -46,11 +46,12 @@ public:
                  {
                      indexOne = j;
                      indexTwo = i;
+                     result.push_back(indexOne);
+                     result.push_back(indexTwo);
+                     return result;
                  }
             }
         }
-        result.push_back(indexOne);
-        result.push_back(indexTwo);
         return result;
     }
 };
