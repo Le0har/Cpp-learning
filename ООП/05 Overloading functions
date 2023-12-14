@@ -1,0 +1,32 @@
+#include <iostream>
+#include <string>
+
+void RoundToInt(int)
+{
+    std::cout << "Число и так целое!" << std::endl;
+}
+
+void RoundToInt(double x)
+{
+    int y;
+    y = static_cast<int>(x);
+    std::cout << "Округленное число: " << y << std::endl;
+}
+
+void RoundToInt(std::string)
+{
+    std::cout << "Ну что вы от меня хотите?" << std::endl;
+}
+
+int main()
+{
+    int a = 5;
+    double b = 3.14;
+    std::string c = "Я строка";
+
+    RoundToInt(a);
+    RoundToInt(b);
+    RoundToInt(c);
+
+    return 0;
+}
