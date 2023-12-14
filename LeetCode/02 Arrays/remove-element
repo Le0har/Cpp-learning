@@ -59,14 +59,7 @@ public:
     {
         if (nums[i] == val)
         {
-            if (nums[i+1] == val)
-            {
-                isNextIndexVal = true;
-            }
-            else
-            {
-                isNextIndexVal = false;
-            }
+            isNextIndexVal = (nums[i+1] == val);
             temp = nums[vectorSize-1];
             nums[vectorSize-1] = nums[i];
             for (int j=i; j<vectorSize-1; j++)
