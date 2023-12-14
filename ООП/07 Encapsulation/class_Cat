@@ -1,0 +1,31 @@
+#include <iostream>
+#include <string>
+
+class Cat {
+private:
+    std::string sound;
+public:
+    std::string name;
+    int age;
+    std::string breed;
+
+    void voice()
+    {
+        std::cout << "sound = " << sound << std::endl;
+    }
+};
+
+int main() {
+
+    Cat murka;
+    murka.name = "Мурка";
+    murka.age = 4;
+    murka.breed = "Британская короткошёрстная";
+
+    std::cout << "Имя: " << murka.name << std::endl;
+    std::cout << "Возраст: " << murka.age << std::endl;
+    std::cout << "Порода: " << murka.breed << std::endl;
+    murka.voice();
+
+    return 0;
+}
