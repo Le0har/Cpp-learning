@@ -1,0 +1,86 @@
+#include <iostream>
+#include <string>
+
+class Cat {
+private:
+    std::string sound;
+public:
+    std::string name;
+    int age;
+    std::string breed;
+
+    struct Toy {
+    std::string color;
+    std::string shape;
+    };
+
+    Toy* favoriteToys = new Toy[10];
+
+    void voice()
+    {
+        std::cout << "sound = " << sound << std::endl;
+    }
+
+    Cat()
+    {
+        name = "Нет имени";
+        age = 0;
+        breed = "Нет породы";
+    }
+
+    Cat(std::string name, int age, std::string breed): name(name), age(age), breed(breed)
+    {
+    }
+
+    Cat(const Cat& c): name(c.name), age(c.age), breed(c.breed), favoriteToys(new Toy[10])
+    {
+        for(int i=0; i<10; i++)
+        {
+            this->favoriteToys[i].color = c.favoriteToys[i].color;
+            this->favoriteToys[i].shape = c.favoriteToys[i].shape;
+        }
+    }
+
+    Cat& operator=(const Cat& c)
+    {
+        if(this == &c)
+        {
+            return *this;
+        }
+        this->name = c.name;
+        this->age = c.age;
+        this->breed = c.breed;
+        delete[] this->favoriteToys;
+        this->favoriteToys = new Toy[10];
+        for(int i=0; i<10; i++)
+        {
+            this->favoriteToys[i].color = c.favoriteToys[i].color;
+            this->favoriteToys[i].shape = c.favoriteToys[i].shape;
+        }
+        return *this;
+    }
+
+    ~Cat()
+    {
+        delete[] favoriteToys;
+    }
+};
+
+int main() {
+
+    Cat murka("Мурка", 4, "Британская короткошёрстная");
+
+    std::cout << "Имя: " << murka.name << std::endl;
+    std::cout << "Возраст: " << murka.age << std::endl;
+    std::cout << "Порода: " << murka.breed << std::endl;
+    murka.voice();
+
+    Cat barsik;
+
+    std::cout << "Имя: " << barsik.name << std::endl;
+    std::cout << "Возраст: " << barsik.age << std::endl;
+    std::cout << "Порода: " << barsik.breed << std::endl;
+    barsik.voice();
+
+    return 0;
+}
