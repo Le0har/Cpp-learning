@@ -36,8 +36,8 @@ public:
     {
         for(int i=0; i<10; i++)
         {
-            this->favoriteToys[i].color = c.favoriteToys[i].color;
-            this->favoriteToys[i].shape = c.favoriteToys[i].shape;
+            favoriteToys[i].color = c.favoriteToys[i].color;
+            favoriteToys[i].shape = c.favoriteToys[i].shape;
         }
     }
 
@@ -47,15 +47,15 @@ public:
         {
             return *this;
         }
-        this->name = c.name;
-        this->age = c.age;
-        this->breed = c.breed;
-        delete[] this->favoriteToys;
-        this->favoriteToys = new Toy[10];
+        name = c.name;
+        age = c.age;
+        breed = c.breed;
+        delete[] favoriteToys;
+        favoriteToys = new Toy[10];
         for(int i=0; i<10; i++)
         {
-            this->favoriteToys[i].color = c.favoriteToys[i].color;
-            this->favoriteToys[i].shape = c.favoriteToys[i].shape;
+            favoriteToys[i].color = c.favoriteToys[i].color;
+            favoriteToys[i].shape = c.favoriteToys[i].shape;
         }
         return *this;
     }
