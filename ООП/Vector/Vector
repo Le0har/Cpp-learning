@@ -1,0 +1,174 @@
+#include <iostream>
+
+class MyVector{
+public:
+    int size;
+    int capacity;
+    int* array = nullptr;
+
+    MyVector()                                                                  //пустой вектор
+    {
+        size = 0;
+        capacity = 10;
+        int* array = new int[capacity];
+    }
+
+    MyVector(int size): size(size), capacity(size*1.5), array(new int[capacity])  //вектор состоит из size чисел, каждое равно 0
+    {
+        for(int i=0; i<size; i++)
+        {
+            array[i] = 0;
+        }
+    }
+
+    MyVector(int size, int value): size(size), capacity(size*1.5), array(new int[capacity])  //вектор состоит из size чисел, каждое равно value
+    {
+        for(int i=0; i<size; i++)
+        {
+            array[i] = value;
+        }
+    }
+
+    void show()
+    {
+        for(int i=0; i<size; i++)
+        {
+            std::cout << array[i] << " ";
+        }
+        std::cout << std::endl;
+    }
+
+    void push_back(int value)
+    {
+        array[size] = value;
+        size++;
+        if (size == capacity)
+        {
+            capacity = size * 1.5;
+            int* array2 = new int[capacity];
+            for(int i=0; i<size; i++)
+            {
+                array2[i] = array[i];
+            }
+            delete[] array;
+            int* array = new int[capacity];
+            for(int i=0; i<size; i++)
+            {
+                array[i] = array2[i];
+            }
+            delete[] array2;
+        }
+    }
+
+    void pop_back()
+    {
+        if(size == 0)
+        {
+            std::cout << "Вектор итак пуст!" << std::endl;
+            return;
+        }
+        array[size-1] = 0;
+        size--;
+    }
+
+    void insert(int index, int value)
+    {
+        if(index < 0 || index > size)
+        {
+            std::cout << "Ошибка! Попытка вставить элемент по несуществующему индексу." << std::endl;
+            return;
+        }
+        size++;
+        if (size == capacity)
+        {
+            capacity = size * 1.5;
+            int* array2 = new int[capacity];
+            for(int i=0; i<size; i++)
+            {
+                array2[i] = array[i];
+            }
+            delete[] array;
+            int* array = new int[capacity];
+            for(int i=0; i<size; i++)
+            {
+                array[i] = array2[i];
+            }
+            delete[] array2;
+        }
+        int* array3 = new int[size];
+            for(int i=0; i<index; i++)
+            {
+                array3[i] = array[i];
+            }
+        array3[index] = value;
+            for(int i=index+1; i<size; i++)
+            {
+                array3[i] = array[i-1];
+            }
+        delete[] array;
+        int* array = new int[capacity];
+            for(int i=0; i<size; i++)
+            {
+                array[i] = array3[i];
+            }
+            delete[] array3;
+    }
+
+    void remove(int index)
+    {
+        if (size == 0)
+        {
+            std::cout << "Вектор итак пуст!" << std::endl;
+            return;
+        }
+        int* array2 = new int[size];
+            for(int i=0; i<index; i++)
+            {
+                array2[i] = array[i];
+            }
+            for(int i=index+1; i<size; i++)
+            {
+                array2[i-1] = array[i];
+            }
+        delete[] array;
+        int* array = new int[capacity];
+            for(int i=0; i<size; i++)
+            {
+                array[i] = array2[i];
+            }
+            delete[] array2;
+    }
+
+    ~MyVector()
+    {
+        delete[] array;
+    }
+
+    };
+
+
+int main()
+{
+
+    MyVector v1;
+    MyVector v2(7);
+    MyVector v3(7,3);
+
+    v1.show();
+    v2.show();
+    v3.show();
+
+    v2.push_back(15);
+    v2.show();
+
+    v2.pop_back();
+    v2.show();
+
+    v2.insert(3,9);
+    v2.show();
+
+    v2.remove(3);
+    v2.show();
+
+    return 0;
+}
