@@ -51,11 +51,8 @@ public:
                 array2[i] = array[i];
             }
             delete[] array;
-            int* array = new int[capacity];
-            for(int i=0; i<size; i++)
-            {
-                array[i] = array2[i];
-            }
+            array = new int[capacity];
+            array = array2;
             delete[] array2;
         }
     }
@@ -88,30 +85,22 @@ public:
                 array2[i] = array[i];
             }
             delete[] array;
-            int* array = new int[capacity];
+            array = new int[capacity];
             for(int i=0; i<size; i++)
             {
                 array[i] = array2[i];
             }
             delete[] array2;
         }
-        int* array3 = new int[size];
-            for(int i=0; i<index; i++)
+        int temp1, temp2;
+        temp1 = array[index];
+        array[index] = value;
+        for(int i=index+1; i<size; i++)
             {
-                array3[i] = array[i];
+                temp2 = array[i];
+                array[i] = temp1;
+                temp1 = temp2;
             }
-        array3[index] = value;
-            for(int i=index+1; i<size; i++)
-            {
-                array3[i] = array[i-1];
-            }
-        delete[] array;
-        int* array = new int[capacity];
-            for(int i=0; i<size; i++)
-            {
-                array[i] = array3[i];
-            }
-            delete[] array3;
     }
 
     void remove(int index)
@@ -121,22 +110,11 @@ public:
             std::cout << "Вектор итак пуст!" << std::endl;
             return;
         }
-        int* array2 = new int[size];
-            for(int i=0; i<index; i++)
-            {
-                array2[i] = array[i];
-            }
-            for(int i=index+1; i<size; i++)
-            {
-                array2[i-1] = array[i];
-            }
-        delete[] array;
-        int* array = new int[capacity];
-            for(int i=0; i<size; i++)
-            {
-                array[i] = array2[i];
-            }
-            delete[] array2;
+        size--;
+        for(int i=index; i<size; i++)
+        {
+            array[i] = array[i+1];
+        }
     }
 
     ~MyVector()
