@@ -1,0 +1,86 @@
+#include <iostream>
+
+class Complex{
+public:
+    double Re;
+    double Im;
+
+Complex()
+{
+    Re = 0.0;
+    Im = 0.0;
+}
+
+Complex (double Re, double Im): Re(Re), Im(Im)
+{
+}
+
+Complex operator +(const Complex& right)
+{
+    Complex temp;
+    temp.Re = this->Re + right.Re;
+    temp.Im = this->Im + right.Im;
+    return temp;
+}
+
+Complex operator -(const Complex& right)
+{
+    Complex temp;
+    temp.Re = this->Re - right.Re;
+    temp.Im = this->Im - right.Im;
+    return temp;
+}
+
+Complex operator *(const Complex& right)
+{
+    Complex temp;
+    temp.Re = this->Re * right.Re - this->Im * right.Im;
+    temp.Im = this->Re * right.Im + this->Im * right.Re;
+    return temp;
+}
+
+Complex operator /(const Complex& right)
+{
+    if ((right.Re*right.Re + right.Im*right.Im) == 0)
+    {
+        std::cout << "Деление на ноль!" << std::endl;
+        exit(99);
+    }
+    Complex temp;
+    temp.Re = (this->Re * right.Re + this->Im * right.Im) / (right.Re*right.Re + right.Im*right.Im);
+    temp.Im = (this->Im * right.Im - this->Re * right.Im) / (right.Re*right.Re + right.Im*right.Im);
+    return temp;
+}
+
+bool operator ==(const Complex& right)
+{
+    return (this->Re == right.Re) && (this->Im == right.Im);
+}
+
+bool operator !=(const Complex& right)
+{
+    return !((this->Re == right.Re) && (this->Im == right.Im));
+}
+};
+
+std::ostream& operator <<(std::ostream &out, Complex p)
+{
+    return out << p.Re << " + " << p.Im;
+}
+
+int main()
+{
+
+    Complex a(1.1, 0.1);
+    Complex b(2.2, 0.2);
+    Complex c = a + b;
+    Complex d = a - c;
+    Complex e = a * b;
+    Complex f = a / b;
+    std::cout << (a == b) << std::endl;
+    std::cout << (a != b) << std::endl;
+
+    std::cout << c << std::endl;
+
+    return 0;
+}
