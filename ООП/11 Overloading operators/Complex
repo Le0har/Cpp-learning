@@ -52,12 +52,12 @@ Complex operator /(const Complex& right) const
     return temp;
 }
 
-bool operator ==(const Complex& right)
+bool operator ==(const Complex& right) const
 {
     return (Re == right.Re) && (Im == right.Im);
 }
 
-bool operator !=(const Complex& right)
+bool operator !=(const Complex& right) const
 {
     return !((Re == right.Re) && (Im == right.Im));
 }
