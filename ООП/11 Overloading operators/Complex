@@ -15,31 +15,31 @@ Complex (double Re, double Im): Re(Re), Im(Im)
 {
 }
 
-Complex operator +(const Complex& right)
+Complex operator +(const Complex& right) const
 {
     Complex temp;
-    temp.Re = this->Re + right.Re;
-    temp.Im = this->Im + right.Im;
+    temp.Re = Re + right.Re;
+    temp.Im = Im + right.Im;
     return temp;
 }
 
-Complex operator -(const Complex& right)
+Complex operator -(const Complex& right) const
 {
     Complex temp;
-    temp.Re = this->Re - right.Re;
-    temp.Im = this->Im - right.Im;
+    temp.Re = Re - right.Re;
+    temp.Im = Im - right.Im;
     return temp;
 }
 
-Complex operator *(const Complex& right)
+Complex operator *(const Complex& right) const
 {
     Complex temp;
-    temp.Re = this->Re * right.Re - this->Im * right.Im;
-    temp.Im = this->Re * right.Im + this->Im * right.Re;
+    temp.Re = Re * right.Re - Im * right.Im;
+    temp.Im = Re * right.Im + Im * right.Re;
     return temp;
 }
 
-Complex operator /(const Complex& right)
+Complex operator /(const Complex& right) const
 {
     if ((right.Re*right.Re + right.Im*right.Im) == 0)
     {
@@ -47,23 +47,31 @@ Complex operator /(const Complex& right)
         exit(99);
     }
     Complex temp;
-    temp.Re = (this->Re * right.Re + this->Im * right.Im) / (right.Re*right.Re + right.Im*right.Im);
-    temp.Im = (this->Im * right.Im - this->Re * right.Im) / (right.Re*right.Re + right.Im*right.Im);
+    temp.Re = (Re * right.Re + Im * right.Im) / (right.Re*right.Re + right.Im*right.Im);
+    temp.Im = (Im * right.Im - Re * right.Im) / (right.Re*right.Re + right.Im*right.Im);
     return temp;
 }
 
 bool operator ==(const Complex& right)
 {
-    return (this->Re == right.Re) && (this->Im == right.Im);
+    return (Re == right.Re) && (Im == right.Im);
 }
 
 bool operator !=(const Complex& right)
 {
-    return !((this->Re == right.Re) && (this->Im == right.Im));
+    return !((Re == right.Re) && (Im == right.Im));
+}
+
+Complex operator -() const
+{
+    Complex temp;
+    temp.Re = - Re;
+    temp.Im = - Im;
+    return temp;
 }
 };
 
-std::ostream& operator <<(std::ostream &out, Complex p)
+std::ostream& operator <<(std::ostream &out, const Complex p)
 {
     return out << p.Re << " + " << p.Im;
 }
@@ -82,5 +90,9 @@ int main()
 
     std::cout << c << std::endl;
 
+    Complex g = - a;
+    std::cout << g << std::endl;
+
     return 0;
 }
+
