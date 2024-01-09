@@ -2,7 +2,7 @@
 #include <string>
 
 class Tamagochi {
-private:
+protected:
     std::string sound;
 public:
     std::string name;
@@ -19,15 +19,27 @@ public:
         std::cout << "Играю " << std::endl;
     }
 
+    Tamagochi()
+    {
+        sound = " ";
+        name = "Нет имени";
+        age = 0;
+        breed = "Нет породы";
+    }
+
+    Tamagochi(std::string name, int age, std::string breed): name(name), age(age), breed(breed)
+    {
+    }
+
 };
 
 class Cat: public Tamagochi {
 private:
-    std::string sound;
+    //std::string sound;
 public:
-    std::string name;
-    int age;
-    std::string breed;
+    //std::string name;
+    //int age;
+    //std::string breed;
     static int countCat;
 
     struct Toy {
@@ -37,20 +49,21 @@ public:
 
     Toy* favoriteToys = new Toy[10];
 
-    void voice()
+    /*void voice()
     {
         std::cout << "sound = " << sound << std::endl;
-    }
+    }*/
 
     Cat()
     {
-        name = "Нет имени";
-        age = 0;
-        breed = "Нет породы";
+        Tamagochi::sound = "Мяу!";
+        //name = "Нет имени";
+        //age = 0;
+        //breed = "Нет породы";
         countCat++;
     }
 
-    Cat(std::string name, int age, std::string breed): name(name), age(age), breed(breed)
+    Cat(std::string name, int age, std::string breed): Tamagochi(name, age, breed)
     {
         countCat++;
     }
