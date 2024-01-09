@@ -65,6 +65,7 @@ public:
 
     Cat(std::string name, int age, std::string breed): Tamagochi(name, age, breed)
     {
+        Tamagochi::sound = "Мяу!";
         countCat++;
     }
 
