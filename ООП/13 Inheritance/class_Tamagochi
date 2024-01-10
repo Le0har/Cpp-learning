@@ -2,7 +2,7 @@
 #include <string>
 
 class Tamagochi {
-protected:
+private:
     std::string sound;
 public:
     std::string name;
@@ -19,27 +19,22 @@ public:
         std::cout << "Играю " << std::endl;
     }
 
-    Tamagochi()
+    void setSound(std::string mysound)
     {
-        sound = " ";
-        name = "Нет имени";
-        age = 0;
-        breed = "Нет породы";
+        sound = mysound;
     }
 
-    Tamagochi(std::string name, int age, std::string breed): name(name), age(age), breed(breed)
+    Tamagochi(std::string name = "Нет имени", int age = 0, std::string breed = "Нет породы",
+              std::string sound = " "): name(name), age(age), breed(breed)
     {
+        setSound(sound);
     }
 
 };
 
 class Cat: public Tamagochi {
-private:
-    //std::string sound;
+
 public:
-    //std::string name;
-    //int age;
-    //std::string breed;
     static int countCat;
 
     struct Toy {
@@ -49,23 +44,13 @@ public:
 
     Toy* favoriteToys = new Toy[10];
 
-    /*void voice()
+    Cat(): Tamagochi("Нет имени", 0, "Нет породы", "Мяу!")
     {
-        std::cout << "sound = " << sound << std::endl;
-    }*/
-
-    Cat()
-    {
-        Tamagochi::sound = "Мяу!";
-        //name = "Нет имени";
-        //age = 0;
-        //breed = "Нет породы";
         countCat++;
     }
 
-    Cat(std::string name, int age, std::string breed): Tamagochi(name, age, breed)
+    Cat(std::string name, int age, std::string breed): Tamagochi(name, age, breed, "Мяу!")
     {
-        Tamagochi::sound = "Мяу!";
         countCat++;
     }
 
