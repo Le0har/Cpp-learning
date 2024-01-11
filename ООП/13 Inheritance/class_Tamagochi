@@ -99,6 +99,11 @@ class Dog: public Tamagochi {
 public:
     static int countDog;
 
+    void chewBone()
+    {
+        std::cout << "Собака " << name << " грызёт кость" << std::endl;
+    }
+
     Dog(): Tamagochi("Нет имени", 0, "Нет породы", "Гав!", "Собака")
     {
         countDog++;
@@ -172,6 +177,7 @@ int main() {
 
     Dog reks("Рэкс", 7, "Немецкая овчарка");
     reks.play();
+    reks.chewBone();
 
     return 0;
 }
