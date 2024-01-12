@@ -40,6 +40,11 @@ public:
     {
         setSound(sound);
     }
+
+    ~Tamagochi()
+    {
+        delete[] favoriteToys;
+    }
  };
 
 class Cat: public Tamagochi {
@@ -89,7 +94,6 @@ public:
 
     ~Cat()
     {
-        delete[] favoriteToys;
         countCat--;
     }
 };
@@ -146,7 +150,6 @@ public:
 
     ~Dog()
     {
-        delete[] favoriteToys;
         countDog--;
     }
 };
