@@ -1,0 +1,200 @@
+#include <iostream>
+#include <string>
+
+class Tamagochi {
+protected:
+    std::string sound;
+public:
+    std::string name;
+    int age;
+    std::string breed;
+
+    struct Toy {
+    std::string color;
+    std::string shape;
+    };
+
+    Toy* favoriteToys = new Toy[10];
+
+    virtual void voice() = 0;
+
+    virtual void play() = 0;
+
+    void setSound(std::string mysound)
+    {
+        sound = mysound;
+    }
+
+    Tamagochi(std::string name = "Нет имени", int age = 0, std::string breed = "Нет породы",
+              std::string sound = " "):name(name), age(age), breed(breed)
+    {
+        setSound(sound);
+    }
+
+    virtual ~Tamagochi()
+    {
+        delete[] favoriteToys;
+    }
+ };
+
+class Cat: public Tamagochi {
+
+public:
+    static int countCat;
+
+    void voice() override
+    {
+        std::cout << "Кошка " << name << " издает звук " << sound << std::endl;
+    }
+
+    void play() override
+    {
+        Toy randomToy = favoriteToys[rand() % 10];
+        std::cout << "Кошка " << name << " играет с " << randomToy.shape << " цвета "
+            << randomToy.color << std::endl;
+    }
+
+    Cat(): Tamagochi("Нет имени", 0, "Нет породы", "Мяу!")
+    {
+        countCat++;
+    }
+
+    Cat(std::string name, int age, std::string breed): Tamagochi(name, age, breed, "Мяу!")
+    {
+        countCat++;
+    }
+
+    Cat(const Cat& c): Tamagochi(c.name, c.age, c.breed, "Мяу!")
+    {
+        favoriteToys = new Toy[10];
+        for(int i=0; i<10; i++)
+        {
+            favoriteToys[i].color = c.favoriteToys[i].color;
+            favoriteToys[i].shape = c.favoriteToys[i].shape;
+        }
+        countCat++;
+    }
+
+    Cat& operator=(const Cat& c)
+    {
+        if(this == &c)
+        {
+            return *this;
+        }
+        name = c.name;
+        age = c.age;
+        breed = c.breed;
+        delete[] favoriteToys;
+        favoriteToys = new Toy[10];
+        for(int i=0; i<10; i++)
+        {
+            favoriteToys[i].color = c.favoriteToys[i].color;
+            favoriteToys[i].shape = c.favoriteToys[i].shape;
+        }
+        return *this;
+    }
+
+    ~Cat()
+    {
+        countCat--;
+    }
+};
+
+class Dog: public Tamagochi {
+
+public:
+    static int countDog;
+
+    void voice() override
+    {
+        std::cout << "Собака " << name << " издает звук " << sound << std::endl;
+    }
+
+    void play() override
+    {
+        Toy randomToy = favoriteToys[rand() % 10];
+        std::cout << "Собака " << name << " бежит за " << randomToy.shape << " цвета "
+            << randomToy.color << std::endl;
+    }
+
+    void chewBone()
+    {
+        std::cout << "Собака " << name << " грызёт кость" << std::endl;
+    }
+
+    Dog(): Tamagochi("Нет имени", 0, "Нет породы", "Гав!")
+    {
+        countDog++;
+    }
+
+    Dog(std::string name, int age, std::string breed): Tamagochi(name, age, breed, "Гав!")
+    {
+        countDog++;
+    }
+
+    Dog(const Dog& d): Tamagochi(d.name, d.age, d.breed, "Гав!")
+    {
+        favoriteToys = new Toy[10];
+        for(int i=0; i<10; i++)
+        {
+            favoriteToys[i].color = d.favoriteToys[i].color;
+            favoriteToys[i].shape = d.favoriteToys[i].shape;
+        }
+        countDog++;
+    }
+
+    Dog& operator=(const Dog& d)
+    {
+        if(this == &d)
+        {
+            return *this;
+        }
+        name = d.name;
+        age = d.age;
+        breed = d.breed;
+        delete[] favoriteToys;
+        favoriteToys = new Toy[10];
+        for(int i=0; i<10; i++)
+        {
+            favoriteToys[i].color = d.favoriteToys[i].color;
+            favoriteToys[i].shape = d.favoriteToys[i].shape;
+        }
+        return *this;
+    }
+
+    ~Dog()
+    {
+        countDog--;
+    }
+};
+
+int Cat::countCat = 0;
+int Dog::countDog = 0;
+
+int main() {
+
+    Cat murka("Мурка", 4, "Британская короткошёрстная");
+
+    std::cout << "Имя: " << murka.name << std::endl;
+    std::cout << "Возраст: " << murka.age << std::endl;
+    std::cout << "Порода: " << murka.breed << std::endl;
+    murka.voice();
+
+    Cat barsik;
+
+    std::cout << "Имя: " << barsik.name << std::endl;
+    std::cout << "Возраст: " << barsik.age << std::endl;
+    std::cout << "Порода: " << barsik.breed << std::endl;
+    barsik.voice();
+
+    std::cout << "Количество кошек = " << Cat::countCat << std::endl;
+
+    murka.play();
+    barsik.play();
+
+    Dog reks("Рэкс", 7, "Немецкая овчарка");
+    reks.play();
+    reks.chewBone();
+
+    return 0;
+}
