@@ -1,12 +1,13 @@
 #include <iostream>
 #include "MyVector.h"
+#include "MyVector.cpp"
 
 int main()
 {
 
-   MyVector v1;
-   MyVector v2(7);
-   MyVector v3(7,3);
+   MyVector<int> v1;
+   MyVector<int> v2(7);
+   MyVector<double> v3(7,3.14);
 
    v1.show();
    v2.show();
@@ -26,3 +27,4 @@ int main()
 
    return 0;
 }
+
