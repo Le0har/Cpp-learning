@@ -1,13 +1,13 @@
 #include "MyVector.h"
 
-   MyVector::MyVector()                                                                  //пустой вектор
+   template <typename T> MyVector<T>::MyVector()                                                                  //пустой вектор
    {
       size = 0;
       capacity = 10;
-      int* array = new int[capacity];
+      T* array = new T[capacity];
    }
 
-   MyVector::MyVector(int size): size(size), capacity(size*1.5), array(new int[capacity])  //вектор состоит из size чисел, каждое равно 0
+   template <typename T> MyVector<T>::MyVector(int size): size(size), capacity(size*1.5), array(new T[capacity])  //вектор состоит из size чисел, каждое равно 0
    {
       for(int i=0; i<size; i++)
       {
@@ -15,7 +15,7 @@
       }
    }
 
-   MyVector::MyVector(int size, int value): size(size), capacity(size*1.5), array(new int[capacity])  //вектор состоит из size чисел, каждое равно value
+   template <typename T> MyVector<T>::MyVector(int size, T value): size(size), capacity(size*1.5), array(new T[capacity])  //вектор состоит из size чисел, каждое равно value
    {
       for(int i=0; i<size; i++)
       {
@@ -23,7 +23,7 @@
       }
    }
 
-   void MyVector::show()
+   template <typename T> void MyVector<T>::show()
    {
       for(int i=0; i<size; i++)
       {
@@ -32,14 +32,14 @@
       std::cout << std::endl;
    }
 
-   void MyVector::push_back(int value)
+   template <typename T> void MyVector<T>::push_back(T value)
    {
       array[size] = value;
       size++;
       if (size == capacity)
       {
          capacity = size * 1.5;
-         int* array2 = new int[capacity];
+         T* array2 = new T[capacity];
          for(int i=0; i<size; i++)
          {
             array2[i] = array[i];
@@ -49,7 +49,7 @@
       }
    }
 
-   void MyVector::pop_back()
+   template <typename T> void MyVector<T>::pop_back()
    {
       if(size == 0)
       {
@@ -60,7 +60,7 @@
       size--;
    }
 
-   void MyVector::insert(int index, int value)
+   template <typename T> void MyVector<T>::insert(int index, T value)
    {
       if(index < 0 || index > size)
       {
@@ -71,7 +71,7 @@
       if (size == capacity)
       {
          capacity = size * 1.5;
-         int* array2 = new int[capacity];
+         T* array2 = new T[capacity];
          for(int i=0; i<size; i++)
          {
             array2[i] = array[i];
@@ -79,7 +79,7 @@
          delete[] array;
          array = array2;
       }
-      int temp1, temp2;
+      T temp1, temp2;
       temp1 = array[index];
       array[index] = value;
       for(int i=index+1; i<size; i++)
@@ -90,7 +90,7 @@
       }
    }
 
-   void MyVector::remove(int index)
+   template <typename T> void MyVector<T>::remove(int index)
    {
       if (size == 0)
       {
@@ -104,7 +104,7 @@
       }
    }
 
-   MyVector::~MyVector()
+   template <typename T> MyVector<T>::~MyVector()
    {
       delete[] array;
    }
