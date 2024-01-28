@@ -1,0 +1,458 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define CELL_X          1
+#define CELL_0          2
+#define CELL_EMPTY      0
+
+
+int xo [3][3];      //1 - колонка, 2 - строка
+
+void field_init();
+void field_print();
+int winner_check(int variant);
+int make_move(int variant);
+int make_move_art_int(int variant);
+
+int main()
+{
+    field_init();
+    field_print();
+
+    int i, winner;
+
+    for (i=1; i<=5; i++)
+    {
+        make_move(CELL_X);
+        winner=winner_check(CELL_X);
+        if (winner == CELL_X)
+        {
+            field_print();
+            printf("\n");
+            printf("Победили: Х !!! Ура !!!\n");
+            break;
+        }
+        field_print();
+
+        if (i == 5) break;
+        make_move_art_int(CELL_0);
+        winner=winner_check(CELL_0);
+        if (winner == CELL_0)
+        {
+            field_print();
+            printf("\n");
+            printf("Победили: 0 !!! Ура !!!\n");
+            break;
+        }
+        field_print();
+    }
+    printf("\n");
+    if (i == 5 && winner != CELL_X)
+        printf("Ничья !!! Победила - Дружба !!!\n");
+
+    printf("\n");
+    printf("Спасибо за игру!\n");
+    getchar();
+
+
+return 0;
+}
+
+void field_init()
+{
+    for (int y=0; y<3; y++)
+    {
+        for (int x=0; x<3; x++)
+        {
+            xo[x][y]=CELL_EMPTY;
+        }
+    }
+}
+
+void field_print()
+{
+    printf("\n");
+    printf("       A     Б     В\n");
+    int column=1;
+    for (int i=1; i<=13; i++)
+    {
+    if (i==1 || i==5 || i==9 || i==13) printf( "    +-----+-----+-----+\n");
+    else
+        if (i==3 || i==7 || i==11)
+        {
+            printf("  %d",column++);
+            for (int x=0; x<3; x++)
+            {
+                switch (xo[x][column-2])
+                {
+                case CELL_X:
+                    printf(" |  X ");
+                    break;
+                case CELL_0:
+                    printf(" |  0 ");
+                    break;
+                case CELL_EMPTY:
+                    printf(" |  . ");
+                    break;
+                }
+            }
+                printf(" |");
+
+                                       printf("\n");
+        }
+        else                           printf( "    |     |     |     |\n");
+    }
+    printf("\n");
+
+
+}
+
+int make_move (int variant)
+{
+    int x=0, y=0;
+    char coordinateX[3], coordinateY[3];
+    if (variant == CELL_X)
+        printf("Сейчас ходит:  Х \n");
+    else
+        printf("Сейчас ходит:  0 \n");
+    printf("\n");
+    for (;;)
+    {
+        for (;;)
+        {
+            printf("Введите координату столбца (А, Б, В) :  ");
+            fflush(stdin);
+            fgets(coordinateX,3,stdin);
+            fflush(stdin);
+
+            if ( (coordinateX[1]=='\n') && (coordinateX[0] == 'А' || coordinateX[0] == 'а' || coordinateX[0] == 'Б' || coordinateX[0] == 'б' || coordinateX[0] == 'В' || coordinateX[0] == 'в'))
+                break;
+            else
+                printf("Вы ввели несуществующий столбец !!!\n");
+         }
+
+        for (;;)
+        {
+            printf("Введите координуту строчки (1, 2, 3) :  ");
+            fflush(stdin);
+            fgets(coordinateY,3,stdin);
+            fflush(stdin);
+
+            if ( (coordinateY[1]=='\n') && (coordinateY[0] == '1' || coordinateY[0] == '2' || coordinateY[0] == '3'))
+                break;
+            else
+                printf("Вы ввели несуществующую строчку !!!\n");
+        }
+
+        printf("\n");
+
+        switch (coordinateX[0])
+        {
+        case 'А':
+        case 'а':
+            x=0;
+            break;
+        case 'Б':
+        case 'б':
+            x=1;
+            break;
+        case 'В':
+        case 'в':
+            x=2;
+            break;
+        }
+
+        switch (coordinateY[0])
+        {
+        case '1':
+            y=0;
+            break;
+        case '2':
+            y=1;
+            break;
+        case '3':
+            y=2;
+            break;
+        }
+
+        if (xo[x][y] == CELL_EMPTY)
+        {
+            xo[x][y]=variant;
+            break;
+        }
+        else
+        {
+            printf("Клетка с координатами: %c %c - занята !!!\n",coordinateX[0],coordinateY[0]);
+            printf("Введите координаты снова \n");
+            printf("\n");
+        }
+    }
+
+return xo[x][y];
+}
+
+int make_move_art_int(int variant)
+{
+    int x=0, y=0;
+    int motion=0;
+    int SumVarX=0, SumVarY=0, SumVarD1, SumVarD2;
+    int SumDefenceX=0, SumDefenceY=0, SumDefenceD1=0, SumDefenceD2=0;
+    if (variant == CELL_X)
+        printf("Сейчас ходит:  Х \n");
+    else
+        printf("Сейчас ходит:  0 \n");
+    printf("\n");
+
+
+    if (xo[1][1] == CELL_EMPTY)
+        {
+        xo[1][1]=variant;
+        motion=xo[1][1];
+        }
+    else
+    {
+        // Атака
+          for (int y=0; y<3; y++)
+            {
+                if (motion != 0) break;
+                else
+                {
+                    SumVarX=0;
+                    SumVarY=0;
+                    SumVarD1=0;
+                    SumVarD2=0;
+
+                    for (int x=0; x<3; x++)
+                        {
+                            if (xo[x][y] == variant)
+                                SumVarX=SumVarX+1;
+                            if (xo[y][x] == variant)
+                                SumVarY=SumVarY+1;
+                            if (xo[x][x] == variant)
+                                SumVarD1=SumVarD1+1;
+                            if (xo[x][2-x] == variant)
+                                SumVarD2=SumVarD2+1;
+
+                            if (SumVarX == 2)
+                                {
+                                    for (int x=0; x<3; x++)
+                                    {
+                                        if (xo[x][y] == CELL_EMPTY)
+                                        {
+                                           xo[x][y]=variant;
+                                           motion=xo[x][y];
+                                           break;
+                                        }
+                                    }
+                                }
+
+                             if (SumVarY == 2)
+                                {
+                                    for (int x=0; x<3; x++)
+                                    {
+                                        if (xo[y][x] == CELL_EMPTY)
+                                        {
+                                           xo[y][x]=variant;
+                                           motion=xo[y][x];
+                                           break;
+                                        }
+                                    }
+                                }
+
+                            if (SumVarD1 == 2)
+                                {
+                                    for (int x=0; x<3; x++)
+                                    {
+                                        if (xo[x][x] == CELL_EMPTY)
+                                        {
+                                           xo[x][x]=variant;
+                                           motion=xo[x][x];
+                                           break;
+                                        }
+                                    }
+                                }
+
+                            if (SumVarD2 == 2)
+                                {
+                                    for (int x=0; x<3; x++)
+                                    {
+                                        if (xo[x][2-x] == CELL_EMPTY)
+                                        {
+                                           xo[x][2-x]=variant;
+                                           motion=xo[x][2-x];
+                                           break;
+                                        }
+                                    }
+                                }
+                        }
+
+
+                }
+                }
+
+
+                    // Защита
+
+        for (int y=0; y<3; y++)
+            {
+                if (motion != 0) break;
+                else
+                {
+                    SumDefenceX=0;
+                    SumDefenceY=0;
+                    SumDefenceD1=0;
+                    SumDefenceD2=0;
+
+                    for (int x=0; x<3; x++)
+                        {
+                            if (xo[x][y] == CELL_X)
+                                SumDefenceX=SumDefenceX+1;
+                            if (xo[y][x] == CELL_X)
+                                SumDefenceY=SumDefenceY+1;
+                            if (xo[x][x] == CELL_X)
+                                SumDefenceD1=SumDefenceD1+1;
+                            if (xo[x][2-x] == CELL_X)
+                                SumDefenceD2=SumDefenceD2+1;
+
+                            if (SumDefenceX == 2)
+                                {
+                                    for (int x=0; x<3; x++)
+                                    {
+                                        if (xo[x][y] == CELL_EMPTY)
+                                        {
+                                           xo[x][y]=variant;
+                                           motion=xo[x][y];
+                                           break;
+                                        }
+                                    }
+                                }
+
+                             if (SumDefenceY == 2)
+                                {
+                                    for (int x=0; x<3; x++)
+                                    {
+                                        if (xo[y][x] == CELL_EMPTY)
+                                        {
+                                           xo[y][x]=variant;
+                                           motion=xo[y][x];
+                                           break;
+                                        }
+                                    }
+                                }
+
+                            if (SumDefenceD1 == 2)
+                                {
+                                    for (int x=0; x<3; x++)
+                                    {
+                                        if (xo[x][x] == CELL_EMPTY)
+                                        {
+                                           xo[x][x]=variant;
+                                           motion=xo[x][x];
+                                           break;
+                                        }
+                                    }
+                                }
+
+                            if (SumDefenceD2 == 2)
+                                {
+                                    for (int x=0; x<3; x++)
+                                    {
+                                        if (xo[x][2-x] == CELL_EMPTY)
+                                        {
+                                           xo[x][2-x]=variant;
+                                           motion=xo[x][2-x];
+                                           break;
+                                        }
+                                    }
+                                }
+                        }
+
+                    }
+
+                }
+
+
+
+                // Ходы в диагонали
+                    for (int x=0; x<3; x++)
+                    {
+                        if (motion != 0) break;
+                        else
+                        {
+                            if (xo[x][x] == CELL_EMPTY)
+                            {
+                                xo[x][x]=variant;
+                                motion=xo[x][x];
+                                break;
+                            }
+
+                            if (xo[x][2-x] == CELL_EMPTY)
+                            {
+                                xo[x][2-x]=variant;
+                                motion=xo[x][2-x];
+                                break;
+                            }
+
+                        }
+                    }
+
+                // Ходы в пустые клетки
+                    for (int y=0; y<3; y++)
+                    {
+                        if (motion != 0) break;
+                        else
+                        {
+                            for (int x=0; x<3; x++)
+                            {
+                            if (xo[x][y] == CELL_EMPTY)
+                            {
+                                    xo[x][y]=variant;
+                                    motion=xo[x][y];
+                                    break;
+                            }
+                            }
+                        }
+                    }
+
+
+
+
+    }
+
+return motion;
+}
+
+
+
+
+int winner_check(int variant)
+{
+    int result;
+    int sumX=0, sumY=0, sumD1, sumD2;
+
+    for (int y=0; y<3; y++)
+    {
+        sumX=0;
+        sumY=0;
+        sumD1=0;
+        sumD2=0;
+        for (int x=0; x<3; x++)
+        {
+            if (xo[x][y] == variant)
+                sumX=sumX+1;
+            if (xo[y][x] == variant)
+                sumY=sumY+1;
+            if (xo[x][x] == variant)
+                sumD1=sumD1+1;
+            if (xo[x][2-x] == variant)
+                sumD2=sumD2+1;
+        }
+        if (sumX == 3 || sumY == 3 || sumD1 == 3 || sumD2 == 3)
+        {
+            result=variant;
+            break;
+        }
+    }
+    return result;
+}
+
