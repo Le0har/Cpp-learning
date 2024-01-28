@@ -1,0 +1,293 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+#define COMPUTER_PLAYER false
+#define HUMAN_PLAYER true
+
+class Field
+{
+public:
+    int field[10][10];
+    int liveShips;
+enum conditionCell
+{
+    EMPTY = 0,     //пустая
+    SHIP  = 1,     //корабль
+    MISS  = 2,     //промах
+    HIT   = 3      //попал
+};
+public:
+    bool putShip(int x, int y)          //поставить ОДИН корабль (x,y)
+    {
+        if ( ((x < 0 || x > 9) || (y < 0 || y > 9)) == true )
+        {
+            return false;
+        }
+        if ( ((field[x-1][y-1] == conditionCell::SHIP) ||
+              (field[x]  [y-1] == conditionCell::SHIP) ||
+              (field[x+1][y-1] == conditionCell::SHIP) ||
+              (field[x-1][y]   == conditionCell::SHIP) ||
+              (field[x]  [y]   == conditionCell::SHIP) ||
+              (field[x+1][y]   == conditionCell::SHIP) ||
+              (field[x-1][y+1] == conditionCell::SHIP) ||
+              (field[x]  [y+1] == conditionCell::SHIP) ||
+              (field[x+1][y+1] == conditionCell::SHIP)) == true )
+        {
+            return false;
+        }
+        else
+        {
+            field[x][y] = conditionCell::SHIP;
+            return true;
+        }
+     }
+    int move(int x, int y)              //сделать ход и анализ результата (x,y)
+    {
+        int result;
+        if ( (field[x][y] == conditionCell::MISS) ||    //Уже сюда стрелял
+             (field[x][y] == conditionCell::HIT) )
+        {
+             result = -1;
+        }
+        if (field[x][y] == conditionCell::EMPTY)        //Промах
+        {
+            field[x][y] = conditionCell::MISS;
+            result = 2;
+        }
+        if (field[x][y] == conditionCell::SHIP)         //Попал
+        {
+            field[x][y] = conditionCell::HIT;
+            field[x-1][y-1] = conditionCell::MISS;
+            field[x]  [y-1] = conditionCell::MISS;
+            field[x+1][y-1] = conditionCell::MISS;
+            field[x-1][y]   = conditionCell::MISS;
+            field[x+1][y]   = conditionCell::MISS;
+            field[x-1][y+1] = conditionCell::MISS;
+            field[x]  [y+1] = conditionCell::MISS;
+            field[x+1][y+1] = conditionCell::MISS;
+            liveShips--;
+            result = 3;
+        }
+        return result;
+    }
+    void drawField(bool human)          //рисование(bool)
+    {
+        if (human == true)              //печать своего поля
+        {
+            cout << endl;
+            cout << "Своё поле: " << endl;
+            cout << "  ";
+            for (int k=0; k<10; k++)
+            {
+                cout << k << " ";
+            }
+            cout << endl;
+            for (int i=0; i<10; i++)
+            {
+                cout << i << " ";
+                for (int j=0; j<10; j++)
+                {
+                    cout << field[i][j] << " ";
+                }
+                cout << endl;
+            }
+            cout << endl;
+        }
+        else                            //печать поля компьютера
+        {
+            cout << "Поле противника: " << endl;
+            cout << "  ";
+            for (int k=0; k<10; k++)
+            {
+                cout << k << " ";
+            }
+            cout << endl;
+            for (int i=0; i<10; i++)
+            {
+                cout << i << " ";
+                for (int j=0; j<10; j++)
+                {
+                    if (field[i][j] == 1) {cout << "0 "; continue;} //не печатать на экран расстановку кораблей противника
+                    cout << field[i][j] << " ";
+                }
+                cout << endl;
+            }
+            cout << endl;
+
+        }
+    }
+    Field()                             //конструктор
+    {
+        for (int i=0; i<10; i++)
+        {
+            for (int j=0; j<10; j++)
+            {
+                field[i][j] = conditionCell::EMPTY;
+            }
+         }
+         liveShips = 8;
+    }
+};
+
+class Player
+{
+public:
+    Field fieldPlayer;
+    bool human;
+    string playerName;
+public:
+    bool makeMove(Field &fieldPlayer)   //сделать ход OUT false - игра окончена
+    {
+        if (human == true)              //ходит человек
+        {
+            for (;;)
+            {
+                int x, y;
+                do {
+                cout << "Укажите координаты хода (x y): ";
+                cin >> x >> y;
+                if ( (x < 0 || x > 9) || (y < 0 || y > 9) == true)
+                {
+                    cout << "Неверные координаты хода! Укажите их снова." << endl;
+                }
+                } while ( (x < 0 || x > 9) || (y < 0 || y > 9) );
+
+                int z = fieldPlayer.move(x, y);
+                if (z == -1)
+                {
+                    cout << "Сюда уже стрелял. Попробуй еще раз." << endl;
+                    continue;
+                }
+                if (fieldPlayer.liveShips == 0)
+                {
+                    return false;
+                }
+                if (z == 2)
+                {
+                    cout << "Мимо..." << endl;
+                    return true;
+                }
+                if (z == 3)
+                {
+                    cout << "Попал!!!" << endl;
+                    continue;
+                }
+            }
+            return true;
+        }
+        else                            //ходит компьютер
+        {
+            for (;;)
+            {
+                int x, y;
+                x = 0 + rand() % 9;
+                y = 0 + rand() % 9;
+
+                int z = fieldPlayer.move(x, y);
+                if (z == -1)
+                {
+                    continue;
+                }
+                cout << "Компьютер делает ход (x y): " << x << " " << y << endl;
+                if (fieldPlayer.liveShips == 0)
+                {
+                    return false;
+                }
+                if (z == 2)
+                {
+                    cout << "Компрьютер промахнулся..." << endl;
+                    return true;
+                }
+                if (z == 3)
+                {
+                    cout << "Компьютер попал!!!" << endl;
+                    continue;
+                }
+            }
+
+            return true;
+        }
+    }
+    void start()                        //начальная расстановка кораблей()
+    {
+        if (human == true)              //расстановка кораблей человеком
+        {
+            int x,y;
+            cout << "Расставьте корабли (8 однопалубных)" << endl;
+            for (int i=0; i<8; i++)
+            {
+                cout << "Укажите координаты коробля № " << i+1 << " (x y): ";
+                cin >> x >> y;
+                if (fieldPlayer.putShip(x, y) == false)
+                {
+                    cout << "Неверные координаты корабля! Укажите их снова." << endl;
+                    i--;
+                }
+                else
+                {
+                     continue;
+                }
+            }
+        }
+        else                            //расстановка кораблей компьютером
+        {
+            int x,y;
+            for (int i=0; i<8; i++)
+            {
+                x = 0 + rand() % 9;
+                y = 0 + rand() % 9;
+            if (fieldPlayer.putShip(x, y) == false)
+                {
+                    i--;
+                }
+            else
+                {
+                     continue;
+                }
+            }
+        }
+     }
+    Player(bool human) : fieldPlayer() //конструктор
+    {
+        if (human == true)
+        {
+            cout << "Введите имя игрока:" << endl;
+            cin >> playerName;
+            this->human = human;
+            start();
+        }
+        else
+        {
+           playerName = "COMPUTER";
+           this->human = human;
+           start();
+        }
+    }
+};
+
+int main()
+{
+    Player p1(HUMAN_PLAYER);
+    p1.fieldPlayer.drawField(HUMAN_PLAYER);
+    Player p2(COMPUTER_PLAYER);
+    p2.fieldPlayer.drawField(COMPUTER_PLAYER);
+    for (int i=0; i<10; i++)
+    {
+        if (p1.makeMove(p2.fieldPlayer) == false)
+        {
+            cout << "Победа!!! Поздравляю, " << p1.playerName << ", Вы выйграли!" << endl;
+            break;
+        }
+        p1.fieldPlayer.drawField(HUMAN_PLAYER);
+        p2.fieldPlayer.drawField(COMPUTER_PLAYER);
+        if (p2.makeMove(p1.fieldPlayer) == false)
+        {
+           cout << "Game over!" << endl;
+        }
+        p1.fieldPlayer.drawField(HUMAN_PLAYER);
+        p2.fieldPlayer.drawField(COMPUTER_PLAYER);
+    }
+    return 0;
+}
