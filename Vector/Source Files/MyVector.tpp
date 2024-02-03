@@ -1,3 +1,4 @@
+//#include "MyVector.h"
 #include <iostream>
 
 template <typename T>
@@ -7,11 +8,11 @@ public:
    int capacity;
    T* array = nullptr;
 
-   MyVector();                                                                  //РїСѓСЃС‚РѕР№ РІРµРєС‚РѕСЂ
+   MyVector();                                                                  //пустой вектор
 
-   MyVector(int size);                                                          //РІРµРєС‚РѕСЂ СЃРѕСЃС‚РѕРёС‚ РёР· size С‡РёСЃРµР», РєР°Р¶РґРѕРµ СЂР°РІРЅРѕ 0
+   MyVector(int size);                                                          //вектор состоит из size чисел, каждое равно 0
 
-   MyVector(int size, T value);                                                 //РІРµРєС‚РѕСЂ СЃРѕСЃС‚РѕРёС‚ РёР· size С‡РёСЃРµР», РєР°Р¶РґРѕРµ СЂР°РІРЅРѕ value
+   MyVector(int size, T value);                                                 //вектор состоит из size чисел, каждое равно value
 
    void show();
 
@@ -26,14 +27,14 @@ public:
    ~MyVector();
 };
 
-   template <typename T> MyVector<T>::MyVector()                                                                  //РїСѓСЃС‚РѕР№ РІРµРєС‚РѕСЂ
+   template <typename T> MyVector<T>::MyVector()                                                                  //пустой вектор
    {
       size = 0;
       capacity = 10;
       T* array = new T[capacity];
    }
 
-   template <typename T> MyVector<T>::MyVector(int size): size(size), capacity(size*1.5), array(new T[capacity])  //РІРµРєС‚РѕСЂ СЃРѕСЃС‚РѕРёС‚ РёР· size С‡РёСЃРµР», РєР°Р¶РґРѕРµ СЂР°РІРЅРѕ 0
+   template <typename T> MyVector<T>::MyVector(int size): size(size), capacity(size*1.5), array(new T[capacity])  //вектор состоит из size чисел, каждое равно 0
    {
       for(int i=0; i<size; i++)
       {
@@ -41,7 +42,7 @@ public:
       }
    }
 
-   template <typename T> MyVector<T>::MyVector(int size, T value): size(size), capacity(size*1.5), array(new T[capacity])  //РІРµРєС‚РѕСЂ СЃРѕСЃС‚РѕРёС‚ РёР· size С‡РёСЃРµР», РєР°Р¶РґРѕРµ СЂР°РІРЅРѕ value
+   template <typename T> MyVector<T>::MyVector(int size, T value): size(size), capacity(size*1.5), array(new T[capacity])  //вектор состоит из size чисел, каждое равно value
    {
       for(int i=0; i<size; i++)
       {
@@ -79,8 +80,7 @@ public:
    {
       if(size == 0)
       {
-         std::cout << "Р’РµРєС‚РѕСЂ РёС‚Р°Рє РїСѓСЃС‚!" << std::endl;
-         return;
+         throw std::logic_error("Ошибка! Вектор итак пуст!");
       }
       array[size-1] = 0;
       size--;
@@ -90,8 +90,7 @@ public:
    {
       if(index < 0 || index > size)
       {
-         std::cout << "РћС€РёР±РєР°! РџРѕРїС‹С‚РєР° РІСЃС‚Р°РІРёС‚СЊ СЌР»РµРјРµРЅС‚ РїРѕ РЅРµСЃСѓС‰РµСЃС‚РІСѓСЋС‰РµРјСѓ РёРЅРґРµРєСЃСѓ." << std::endl;
-         return;
+         throw std::invalid_argument("Ошибка! Попытка вставить элемент по несуществующему индексу.");
       }
       size++;
       if (size == capacity)
@@ -120,8 +119,7 @@ public:
    {
       if (size == 0)
       {
-         std::cout << "Р’РµРєС‚РѕСЂ РёС‚Р°Рє РїСѓСЃС‚!" << std::endl;
-         return;
+         throw std::logic_error("Ошибка! Вектор итак пуст!");
       }
       size--;
       for(int i=index; i<size; i++)
@@ -134,3 +132,4 @@ public:
    {
       delete[] array;
    }
+
