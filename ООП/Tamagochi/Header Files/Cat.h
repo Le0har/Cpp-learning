@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <vector>
 #include "Tamagochi.h"
 
 class Cat: public Tamagochi {

@@ -1,5 +1,7 @@
 #pragma once
-#include<string>
+#include <iostream>
+#include <string>
+#include <vector>
 
 class Tamagochi {
 protected:
@@ -9,12 +11,21 @@ public:
    int age;
    std::string breed;
 
+   enum color
+   {
+      red = 1,
+      green = 2,
+      blue = 3
+   };
+
    struct Toy {
-      std::string color;
+      color color;
       std::string shape;
    };
 
-   Toy* favoriteToys = new Toy[10];
+   std::vector <Toy> favoriteToys;
+
+   void addToy(int color, std::string shape);
 
    virtual void voice() = 0;
 

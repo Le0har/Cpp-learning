@@ -3,38 +3,41 @@
 
    void Dog::voice() 
    {
-      std::cout << "Ð¡Ð¾Ð±Ð°ÐºÐ° " << name << " Ð¸Ð·Ð´Ð°ÐµÑ‚ Ð·Ð²ÑƒÐº " << sound << std::endl;
+      std::cout << "Ñîáàêà " << name << " èçäàåò çâóê " << sound << std::endl;
    }
 
    void Dog::play() 
    {
-      Toy randomToy = favoriteToys[rand() % 10];
-      std::cout << "Ð¡Ð¾Ð±Ð°ÐºÐ° " << name << " Ð±ÐµÐ¶Ð¸Ñ‚ Ð·Ð° " << randomToy.shape << " Ñ†Ð²ÐµÑ‚Ð° "
+      if (favoriteToys.empty() == true)
+      {
+         std::cout << "Ó ñîáàêè " << name << " ïîêà íåòó èãðóøåê!" << std::endl;
+         return;
+      }
+      Toy randomToy = favoriteToys[rand() % favoriteToys.size()];
+      std::cout << "Ñîáàêà " << name << " áåæèò çà " << randomToy.shape << " öâåòà "
          << randomToy.color << std::endl;
    }
 
    void Dog::chewBone()
    {
-      std::cout << "Ð¡Ð¾Ð±Ð°ÐºÐ° " << name << " Ð³Ñ€Ñ‹Ð·Ñ‘Ñ‚ ÐºÐ¾ÑÑ‚ÑŒ" << std::endl;
+      std::cout << "Ñîáàêà " << name << " ãðûç¸ò êîñòü" << std::endl;
    }
 
-   Dog::Dog(): Tamagochi("ÐÐµÑ‚ Ð¸Ð¼ÐµÐ½Ð¸", 0, "ÐÐµÑ‚ Ð¿Ð¾Ñ€Ð¾Ð´Ñ‹", "Ð“Ð°Ð²!")
+   Dog::Dog(): Tamagochi("Íåò èìåíè", 0, "Íåò ïîðîäû", "Ãàâ!")
    {
       countDog++;
    }
 
-   Dog::Dog(std::string name, int age, std::string breed): Tamagochi(name, age, breed, "Ð“Ð°Ð²!")
+   Dog::Dog(std::string name, int age, std::string breed): Tamagochi(name, age, breed, "Ãàâ!")
    {
       countDog++;
    }
 
-   Dog::Dog(const Dog& d): Tamagochi(d.name, d.age, d.breed, "Ð“Ð°Ð²!")
+   Dog::Dog(const Dog& d): Tamagochi(d.name, d.age, d.breed, "Ãàâ!")
    {
-      favoriteToys = new Toy[10];
-      for(int i=0; i<10; i++)
+      for(int i=0; i<favoriteToys.size(); i++)
       {
-         favoriteToys[i].color = d.favoriteToys[i].color;
-         favoriteToys[i].shape = d.favoriteToys[i].shape;
+         favoriteToys[i] = d.favoriteToys[i];
       }
       countDog++;
    }
@@ -48,12 +51,10 @@
       name = d.name;
       age = d.age;
       breed = d.breed;
-      delete[] favoriteToys;
-      favoriteToys = new Toy[10];
-      for(int i=0; i<10; i++)
+
+      for(int i=0; favoriteToys.size(); i++)
       {
-         favoriteToys[i].color = d.favoriteToys[i].color;
-         favoriteToys[i].shape = d.favoriteToys[i].shape;
+         favoriteToys[i] = d.favoriteToys[i];
       }
       return *this;
    }

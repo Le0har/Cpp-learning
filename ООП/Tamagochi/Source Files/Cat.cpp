@@ -3,33 +3,36 @@
 
    void Cat::voice() 
    {
-      std::cout << "ÐšÐ¾ÑˆÐºÐ° " << name << " Ð¸Ð·Ð´Ð°ÐµÑ‚ Ð·Ð²ÑƒÐº " << sound << std::endl;
+      std::cout << "Êîøêà " << name << " èçäàåò çâóê " << sound << std::endl;
    }
 
    void Cat::play() 
    {
-      Toy randomToy = favoriteToys[rand() % 10];
-      std::cout << "ÐšÐ¾ÑˆÐºÐ° " << name << " Ð¸Ð³Ñ€Ð°ÐµÑ‚ Ñ " << randomToy.shape << " Ñ†Ð²ÐµÑ‚Ð° "
+      if (favoriteToys.empty() == true)
+      {
+         std::cout << "Ó êîøêè " << name << " ïîêà íåòó èãðóøåê!" << std::endl;
+         return;
+      }
+      Toy randomToy = favoriteToys[rand() % favoriteToys.size()];
+      std::cout << "Êîøêà " << name << " èãðàåò ñ " << randomToy.shape << " öâåòà "
          << randomToy.color << std::endl;
    }
 
-   Cat::Cat(): Tamagochi("ÐÐµÑ‚ Ð¸Ð¼ÐµÐ½Ð¸", 0, "ÐÐµÑ‚ Ð¿Ð¾Ñ€Ð¾Ð´Ñ‹", "ÐœÑÑƒ!")
+   Cat::Cat(): Tamagochi("Íåò èìåíè", 0, "Íåò ïîðîäû", "Ìÿó!")
    {
       countCat++;
    }
 
-   Cat::Cat(std::string name, int age, std::string breed): Tamagochi(name, age, breed, "ÐœÑÑƒ!")
+   Cat::Cat(std::string name, int age, std::string breed): Tamagochi(name, age, breed, "Ìÿó!")
    {
       countCat++;
    }
 
-   Cat::Cat(const Cat& c): Tamagochi(c.name, c.age, c.breed, "ÐœÑÑƒ!")
+   Cat::Cat(const Cat& c): Tamagochi(c.name, c.age, c.breed, "Ìÿó!")
    {
-      favoriteToys = new Toy[10];
-      for(int i=0; i<10; i++)
+      for(int i=0; i<favoriteToys.size(); i++)
       {
-         favoriteToys[i].color = c.favoriteToys[i].color;
-         favoriteToys[i].shape = c.favoriteToys[i].shape;
+         favoriteToys[i] = c.favoriteToys[i];
       }
       countCat++;
    }
@@ -43,12 +46,10 @@
       name = c.name;
       age = c.age;
       breed = c.breed;
-      delete[] favoriteToys;
-      favoriteToys = new Toy[10];
-      for(int i=0; i<10; i++)
+
+      for(int i=0; i<favoriteToys.size(); i++)
       {
-         favoriteToys[i].color = c.favoriteToys[i].color;
-         favoriteToys[i].shape = c.favoriteToys[i].shape;
+         favoriteToys[i] = c.favoriteToys[i];
       }
       return *this;
    }
