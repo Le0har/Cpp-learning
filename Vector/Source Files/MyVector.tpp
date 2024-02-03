@@ -90,7 +90,7 @@ public:
    {
       if(index < 0 || index > size)
       {
-         throw std::invalid_argument("Ошибка! Попытка вставить элемент по несуществующему индексу.");
+         throw std::invalid_argument("Ошибка! Попытка вставить элемент по несуществующему индексу!");
       }
       size++;
       if (size == capacity)
