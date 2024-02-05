@@ -1,39 +1,39 @@
-#include "Dog.h"
+ï»¿#include "Dog.h"
 #include "Tamagochi.h"
 
    void Dog::voice() 
    {
-      std::cout << "Ñîáàêà " << name << " èçäàåò çâóê " << sound << std::endl;
+      std::cout << "Ð¡Ð¾Ð±Ð°ÐºÐ° " << name << " Ð¸Ð·Ð´Ð°ÐµÑ‚ Ð·Ð²ÑƒÐº " << sound << std::endl;
    }
 
    void Dog::play() 
    {
       if (favoriteToys.empty() == true)
       {
-         std::cout << "Ó ñîáàêè " << name << " ïîêà íåòó èãðóøåê!" << std::endl;
+         std::cout << "Ð£ ÑÐ¾Ð±Ð°ÐºÐ¸ " << name << " Ð¿Ð¾ÐºÐ° Ð½ÐµÑ‚Ñƒ Ð¸Ð³Ñ€ÑƒÑˆÐµÐº!" << std::endl;
          return;
       }
       Toy randomToy = favoriteToys[rand() % favoriteToys.size()];
-      std::cout << "Ñîáàêà " << name << " áåæèò çà " << randomToy.shape << " öâåòà "
+      std::cout << "Ð¡Ð¾Ð±Ð°ÐºÐ° " << name << " Ð±ÐµÐ¶Ð¸Ñ‚ Ð·Ð° " << randomToy.shape << " Ñ†Ð²ÐµÑ‚Ð° "
          << randomToy.color << std::endl;
    }
 
    void Dog::chewBone()
    {
-      std::cout << "Ñîáàêà " << name << " ãðûç¸ò êîñòü" << std::endl;
+      std::cout << "Ð¡Ð¾Ð±Ð°ÐºÐ° " << name << " Ð³Ñ€Ñ‹Ð·Ñ‘Ñ‚ ÐºÐ¾ÑÑ‚ÑŒ" << std::endl;
    }
 
-   Dog::Dog(): Tamagochi("Íåò èìåíè", 0, "Íåò ïîðîäû", "Ãàâ!")
+   Dog::Dog(): Tamagochi("ÐÐµÑ‚ Ð¸Ð¼ÐµÐ½Ð¸", 0, "ÐÐµÑ‚ Ð¿Ð¾Ñ€Ð¾Ð´Ñ‹", "Ð“Ð°Ð²!")
    {
       countDog++;
    }
 
-   Dog::Dog(std::string name, int age, std::string breed): Tamagochi(name, age, breed, "Ãàâ!")
+   Dog::Dog(std::string name, int age, std::string breed): Tamagochi(name, age, breed, "Ð“Ð°Ð²!")
    {
       countDog++;
    }
 
-   Dog::Dog(const Dog& d): Tamagochi(d.name, d.age, d.breed, "Ãàâ!")
+   Dog::Dog(const Dog& d): Tamagochi(d.name, d.age, d.breed, "Ð“Ð°Ð²!")
    {
       for(int i=0; i<favoriteToys.size(); i++)
       {

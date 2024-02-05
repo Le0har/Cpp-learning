@@ -1,11 +1,11 @@
-#include "Tamagochi.h"
+п»ї#include "Tamagochi.h"
 #include "MyException.h"
 
 void Tamagochi::addToy(int color, std::string shape)
 {
    if (shape == name)
    {
-      throw MyException("Форма игрушки совпадает с именем животного!");
+      throw MyException("Р¤РѕСЂРјР° РёРіСЂСѓС€РєРё СЃРѕРІРїР°РґР°РµС‚ СЃ РёРјРµРЅРµРј Р¶РёРІРѕС‚РЅРѕРіРѕ!");
    }
    
    switch (color)
@@ -16,7 +16,7 @@ void Tamagochi::addToy(int color, std::string shape)
                break;
    case 3:     favoriteToys.push_back(Toy{ blue, shape });
                break;
-   default:    std::cout << "Такого цвета нету!" << std::endl;
+   default:    std::cout << "РўР°РєРѕРіРѕ С†РІРµС‚Р° РЅРµС‚Сѓ!" << std::endl;
    }
 }
 
@@ -25,7 +25,7 @@ void Tamagochi::addToy(int color, std::string shape)
       sound = mysound;
    }
 
-   Tamagochi::Tamagochi(std::string name = "Нет имени", int age = 0, std::string breed = "Нет породы",
+   Tamagochi::Tamagochi(std::string name = "РќРµС‚ РёРјРµРЅРё", int age = 0, std::string breed = "РќРµС‚ РїРѕСЂРѕРґС‹",
       std::string sound = " "):name(name), age(age), breed(breed)
    {
       setSound(sound);

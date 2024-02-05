@@ -1,34 +1,34 @@
-#include "Cat.h"
+ï»¿#include "Cat.h"
 #include "Tamagochi.h"
 
    void Cat::voice() 
    {
-      std::cout << "Êîøêà " << name << " èçäàåò çâóê " << sound << std::endl;
+      std::cout << "ÐšÐ¾ÑˆÐºÐ° " << name << " Ð¸Ð·Ð´Ð°ÐµÑ‚ Ð·Ð²ÑƒÐº " << sound << std::endl;
    }
 
    void Cat::play() 
    {
       if (favoriteToys.empty() == true)
       {
-         std::cout << "Ó êîøêè " << name << " ïîêà íåòó èãðóøåê!" << std::endl;
+         std::cout << "Ð£ ÐºÐ¾ÑˆÐºÐ¸ " << name << " Ð¿Ð¾ÐºÐ° Ð½ÐµÑ‚Ñƒ Ð¸Ð³Ñ€ÑƒÑˆÐµÐº!" << std::endl;
          return;
       }
       Toy randomToy = favoriteToys[rand() % favoriteToys.size()];
-      std::cout << "Êîøêà " << name << " èãðàåò ñ " << randomToy.shape << " öâåòà "
+      std::cout << "ÐšÐ¾ÑˆÐºÐ° " << name << " Ð¸Ð³Ñ€Ð°ÐµÑ‚ Ñ " << randomToy.shape << " Ñ†Ð²ÐµÑ‚Ð° "
          << randomToy.color << std::endl;
    }
 
-   Cat::Cat(): Tamagochi("Íåò èìåíè", 0, "Íåò ïîðîäû", "Ìÿó!")
+   Cat::Cat(): Tamagochi("ÐÐµÑ‚ Ð¸Ð¼ÐµÐ½Ð¸", 0, "ÐÐµÑ‚ Ð¿Ð¾Ñ€Ð¾Ð´Ñ‹", "ÐœÑÑƒ!")
    {
       countCat++;
    }
 
-   Cat::Cat(std::string name, int age, std::string breed): Tamagochi(name, age, breed, "Ìÿó!")
+   Cat::Cat(std::string name, int age, std::string breed): Tamagochi(name, age, breed, "ÐœÑÑƒ!")
    {
       countCat++;
    }
 
-   Cat::Cat(const Cat& c): Tamagochi(c.name, c.age, c.breed, "Ìÿó!")
+   Cat::Cat(const Cat& c): Tamagochi(c.name, c.age, c.breed, "ÐœÑÑƒ!")
    {
       for(int i=0; i<favoriteToys.size(); i++)
       {
